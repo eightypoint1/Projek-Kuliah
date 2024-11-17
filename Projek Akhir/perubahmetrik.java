@@ -36,36 +36,115 @@ public class perubahmetrik {
     
     public static void main(String[] args) {
         System.out.println("Program ini mengubah antara berbagai macam unit metrik");
+        fungsiutama();
+
+    }   
+
+    public static void fungsiutama(){
         while(true){
-            tunjukanpilihan("dari");
-            int pilihan = scan.nextInt();
-            if (pilihan == 7) {
+            System.out.println("\nPilih mode konversi:");
+            System.out.println("1. Konversi tunggal");
+            System.out.println("2. Konversi berantai");
+            System.out.println("3. Keluar");
+            System.out.print("Buatlah Pilihan Anda = ");
+            
+            int modePilihan = scan.nextInt();
+            
+            if (modePilihan == 3) {
                 System.out.println("Terimakasih Sudah menggunakan Program ini");
                 break;
             }
-            else if (pilihan <1 || pilihan > 7) {
+            else if (modePilihan == 1) {
+                lakukanKonversiTunggal();
+            }
+            else if (modePilihan == 2) {
+                lakukanKonversiBerantai();
+            }
+            else {
                 System.out.println("Pilihan tidak valid, coba lagi");
-                continue;
             }
-            
-            tunjukanpilihan("ke");
-            int pilihanTujuan = scan.nextInt();
-            if (pilihanTujuan < 1 || pilihanTujuan > 6) {
-                System.out.println("Pilihan tidak valid, coba lagi");
-                continue;
-            }
-            
-            System.out.print("Masukkan nilai " + satuanunit[pilihan-1] + " = ");
-            double nilai = scan.nextDouble();
-            while(nilai < 0){
-                System.out.print("Nilai tidak boleh dalam bentuk negatif, coba lagi = ");
-                nilai = scan.nextDouble();
-            }
-            
-            double hasil = buatkonversi(nilai, pilihan, pilihanTujuan);
-            System.out.printf("Hasil perubahan adalah = %.10f %s%n", hasil, satuanunit[pilihanTujuan-1]);
         }
-    }   
+    }
+    
+    // Fungsi untuk konversi tunggal (original)
+    public static void lakukanKonversiTunggal() {
+        tunjukanpilihan("dari");
+        int pilihan = scan.nextInt();
+        if (pilihan < 1 || pilihan > 6) {
+            System.out.println("Pilihan tidak valid, coba lagi");
+            return;
+        }
+        
+        tunjukanpilihan("ke");
+        int pilihanTujuan = scan.nextInt();
+        if (pilihanTujuan < 1 || pilihanTujuan > 6) {
+            System.out.println("Pilihan tidak valid, coba lagi");
+            return;
+        }
+        
+        System.out.print("Masukkan nilai " + satuanunit[pilihan-1] + " = ");
+        double nilai = scan.nextDouble();
+        while(nilai < 0){
+            System.out.print("Nilai tidak boleh dalam bentuk negatif, coba lagi = ");
+            nilai = scan.nextDouble();
+        }
+        
+        double hasil = buatkonversi(nilai, pilihan, pilihanTujuan);
+        System.out.printf("Hasil perubahan adalah = %.10f %s%n", hasil, satuanunit[pilihanTujuan-1]);
+    }
+    
+    // Fungsi baru untuk konversi berantai
+    public static void lakukanKonversiBerantai() {
+        System.out.print("Masukkan jumlah konversi yang diinginkan: ");
+        int jumlahKonversi = scan.nextInt();
+        
+        if (jumlahKonversi < 1) {
+            System.out.println("Jumlah konversi harus minimal 1");
+            return;
+        }
+        
+        // Meminta unit awal dan nilai awal
+        tunjukanpilihan("dari");
+        int unitAwal = scan.nextInt();
+        if (unitAwal < 1 || unitAwal > 6) {
+            System.out.println("Pilihan tidak valid");
+            return;
+        }
+        
+        System.out.print("Masukkan nilai " + satuanunit[unitAwal-1] + " = ");
+        double nilaiAwal = scan.nextDouble();
+        while(nilaiAwal < 0){
+            System.out.print("Nilai tidak boleh dalam bentuk negatif, coba lagi = ");
+            nilaiAwal = scan.nextDouble();
+        }
+        
+        // Melakukan konversi berantai secara rekursif
+        konversiBerantai(nilaiAwal, unitAwal, jumlahKonversi, 1);
+    }
+    
+    // Fungsi rekursif untuk konversi berantai
+    private static void konversiBerantai(double nilai, int unitSekarang, int totalKonversi, int langkahKe) {
+        if (langkahKe > totalKonversi) {
+            return;
+        }
+        
+        System.out.printf("\nLangkah %d dari %d:%n", langkahKe, totalKonversi);
+        tunjukanpilihan("ke");
+        int unitSelanjutnya = scan.nextInt();
+        
+        if (unitSelanjutnya < 1 || unitSelanjutnya > 6) {
+            System.out.println("Pilihan tidak valid, konversi dihentikan");
+            return;
+        }
+        
+        double hasilKonversi = buatkonversi(nilai, unitSekarang, unitSelanjutnya);
+        System.out.printf("%.10f %s = %.10f %s%n", 
+            nilai, satuanunit[unitSekarang-1], 
+            hasilKonversi, satuanunit[unitSelanjutnya-1]);
+        
+        // Rekursi untuk konversi selanjutnya
+        konversiBerantai(hasilKonversi, unitSelanjutnya, totalKonversi, langkahKe + 1);
+    }
     
     // Fungsi untuk mengoutput instruksi pilihan unit
     public static void tunjukanpilihan(String arahKonversi){
@@ -76,10 +155,6 @@ public class perubahmetrik {
         System.out.println("4. Milimeter");
         System.out.println("5. Micrometer");
         System.out.println("6. Nanometer");
-        // Output Pilihan pertama dapat memberi opsi bagi pengguna untuk keluar
-        if (arahKonversi.equals("dari")) {
-            System.out.println("7. keluar");
-        }
         System.out.print("Buatlah Pilihan Anda = ");
     }
     

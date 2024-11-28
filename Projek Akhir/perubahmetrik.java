@@ -19,6 +19,20 @@ import java.util.*;
 public class perubahmetrik {
     private static Scanner scan = new Scanner(System.in);
 
+    // Kode ANSI untuk Memberi Warna
+    private static final String RESET = "\u001B[0m";
+    private static final String BLUE = "\u001B[34m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String YELLOW = "\u001B[33m";
+    private static final String PURPLE = "\u001B[35m";
+    private static final String CYAN = "\u001B[36m";
+    private static final String RED = "\u001B[31m";
+        
+    // Karakter Unicode 
+    private static final String DOUBLE_LINE = "═";
+    private static final String ARROW = "→";
+    private static final String BULLET = "•";
+
     /**
      * Array untuk menyimpan hingga 100 riwayat konversi terakhir.
      * Masing-masing array menyimpan nilai awal, nilai hasil, unit awal, dan unit tujuan.
@@ -29,6 +43,25 @@ public class perubahmetrik {
     private static String[] unitAwalRiwayat = new String[100];
     private static String[] unitAkhirRiwayat = new String[100];
     private static int jumlahRiwayat = 0;  // menghitung jumlah riwayat yang tersimpan
+
+    /**
+     * Mengonversi kode unit singkat menjadi nama unit yang lengkap.
+     * 
+     * @param unit Kode unit singkat (mis. "km", "m", "cm")
+     * @return Nama unit lengkap dalam bahasa Indonesia
+    */
+    
+    private static String getUnitName(String unit) {
+        switch(unit) {
+            case "km": return "Kilometer";
+            case "m": return "Meter";
+            case "cm": return "Centimeter";
+            case "mm": return "Milimeter";
+            case "μm": return "Micrometer";
+            case "nm": return "Nanometer";
+            default: return unit;
+        }
+    }
     
     //Tabel untuk konversi unit ke meter 
     static final double[] konversikemeter = {
@@ -39,6 +72,7 @@ public class perubahmetrik {
         1e-6,     // (1 μm = 0.000001 m)
         1e-9      // (1 nm = 0.000000001 m)
     };
+
     //Tabel untuk konversi dari meter ke unit target
     static final double[] konversidarimeter = {
         0.001,    // (1 m = 0.001 km)
@@ -48,6 +82,7 @@ public class perubahmetrik {
         1000000,  // (1 m = 1,000,000 μm)
         1e9       // (1 m = 1,000,000,000 nm)
     };
+
     //Tabel untuk satuan unit metrik
     static final String[] satuanunit = {
         "km",    // kilometer
@@ -57,7 +92,8 @@ public class perubahmetrik {
         "μm",    // micrometer
         "nm",    // nanometer
     }; 
-    
+
+
     /**
      * Fungsi utama program. Menyediakan menu untuk memilih mode operasi:
      * <ul>
@@ -68,35 +104,68 @@ public class perubahmetrik {
      * </ul>
      */
 
-    private static void fungsiUtama(){
-        System.out.println("Program ini mengubah antara berbagai macam unit metrik");
-        while(true){
-            System.out.println("\nPilih mode:");
-            System.out.println("1. Konversi tunggal");
-            System.out.println("2. Konversi berantai");
-            System.out.println("3. Lihat riwayat konversi");
-            System.out.println("4. Keluar");
-            System.out.print("Buatlah Pilihan Anda = ");
+    private static void fungsiUtama() {
+        outputHeader("PROGRAM KONVERSI METRIK");
+        
+        while(true) {
+            System.out.println("\n" + CYAN + "╔══════════" + YELLOW + " MENU UTAMA " + CYAN + "════════════╗" + RESET);
+            System.out.println(CYAN + "║" + RESET + " 1. Konversi tunggal              " + CYAN + "║" + RESET);
+            System.out.println(CYAN + "║" + RESET + " 2. Konversi berantai             " + CYAN + "║" + RESET);
+            System.out.println(CYAN + "║" + RESET + " 3. Lihat riwayat konversi        " + CYAN + "║" + RESET);
+            System.out.println(CYAN + "║" + RESET + " 4. Keluar                        " + CYAN + "║" + RESET);
+            System.out.println(CYAN + "╚══════════════════════════════════╝" + RESET);
+            System.out.print(YELLOW + "Pilihan Anda " + RESET + PURPLE + "➜ " + RESET);
             
             int modePilihan = scan.nextInt();
             
             switch(modePilihan) {
-                case 1:
-                    lakukanKonversiTunggal();
-                    break;
-                case 2:
-                    lakukanKonversiBerantai();
-                    break;
-                case 3:
-                    tampilkanRiwayat();
-                    break;
+                case 1: lakukanKonversiTunggal(); break;
+                case 2: lakukanKonversiBerantai(); break;
+                case 3: tampilkanRiwayat(); break;
                 case 4:
-                    System.out.println("Terimakasih Sudah menggunakan Program ini");
+                    outputHeader("TERIMA KASIH TELAH MENGGUNAKAN PROGRAM INI");
                     return;
                 default:
-                    System.out.println("Pilihan tidak valid, coba lagi");
+                    System.out.println(RED + "⚠ Pilihan tidak valid, silakan coba lagi" + RESET);
             }
         }
+    }
+
+    /**
+     * Memberikan jeda waktu dengan tampilan animasi titik-titik.
+     * Metode ini menampilkan teks dan menambahkan titik-titik secara bertahap
+     * untuk memberi kesan proses sedang berlangsung.
+     * 
+     * @param text Teks yang akan ditampilkan sebelum animasi jeda
+     * @param waktudalammillisekon Durasi jeda dalam milidetik
+    */
+
+    private static void delayWaktu(String text, int waktudalammillisekon){
+        System.out.print(text);
+        try {
+            for(int i = (int) (Math.random()*3); i >= 0; i--){
+            Thread.sleep((waktudalammillisekon/3));
+                System.out.print(".");
+            }
+            Thread.sleep(waktudalammillisekon/2);
+            System.out.println("");
+            }
+                catch (Exception e) {
+                    System.out.println(e);
+                }
+    }
+
+    /**
+     * Menampilkan header dengan format kotak yang rapi menggunakan karakter Unicode.
+     * Header dicetak dengan warna dan gaya tertentu.
+     * 
+     * @param text Teks yang akan ditampilkan di dalam header
+    */
+
+    private static void outputHeader(String text) {
+        System.out.println("\n" + CYAN + "╔" + DOUBLE_LINE.repeat(text.length() + 2) + "╗" + RESET);
+        System.out.println(CYAN + "║ " + RESET + YELLOW + text + CYAN + " ║" + RESET);
+        System.out.println(CYAN + "╚" + DOUBLE_LINE.repeat(text.length() + 2) + "╝" + RESET);
     }
 
     /**
@@ -131,29 +200,29 @@ public class perubahmetrik {
     }
     
     /**
-     * Menampilkan riwayat konversi. Menampilkan hingga 100 entri terakhir
+     * Menampilkan riwayat konversi. Menampilkan hingga 100 konversi terakhir
      * dalam urutan dari yang terbaru ke yang terlama.
      */
 
-    private static void tampilkanRiwayat() {
+     private static void tampilkanRiwayat() {
+        delayWaktu("Mencari Riwayat", 1000);
         if (jumlahRiwayat == 0) {
-            System.out.println("\nBelum ada riwayat konversi.");
+            System.out.println("\n" + YELLOW + "Belum ada riwayat konversi." + RESET);
             return;
         }
         
-        System.out.println("\nRIWAYAT KONVERSI:");
-        System.out.println("==================");
+        outputHeader("RIWAYAT KONVERSI");
         
-        // Tampilkan riwayat dari yang terbaru ke yang terlama
-        for (int i = jumlahRiwayat-1; i>= 0; i--) {
-            System.out.printf("%d. %.2f %s → %.2f %s%n", 
+        for (int i = jumlahRiwayat-1; i >= 0; i--) {
+            System.out.printf(CYAN + "%d. " + RESET + "%.2f %s " + GREEN + "%s" + RESET + " %.2f %s%n",
                 jumlahRiwayat - i,
-                nilaiAwalRiwayat[i], 
-                unitAwalRiwayat[i], 
-                nilaiAkhirRiwayat[i], 
+                nilaiAwalRiwayat[i],
+                unitAwalRiwayat[i],
+                "→",
+                nilaiAkhirRiwayat[i],
                 unitAkhirRiwayat[i]);
         }
-
+        System.out.println(CYAN + DOUBLE_LINE.repeat(40) + RESET);
     }
     
     /**
@@ -162,6 +231,7 @@ public class perubahmetrik {
      */
     
     public static void lakukanKonversiTunggal() {
+        delayWaktu("Memulai Proses", 500);
         tunjukanpilihan("dari");
         int pilihan = scan.nextInt();
         if (pilihan < 1 || pilihan > 6) {
@@ -184,7 +254,7 @@ public class perubahmetrik {
         }
         
         double hasil = buatkonversi(nilai, pilihan, pilihanTujuan);
-        System.out.printf("Hasil perubahan adalah = %.10f %s%n", 
+        System.out.printf("Hasil perubahan adalah = %.2f %s%n", 
             hasil, satuanunit[pilihanTujuan-1]);
             
         // Tambahkan ke riwayat
@@ -199,6 +269,7 @@ public class perubahmetrik {
      */
 
     public static void lakukanKonversiBerantai() {
+        delayWaktu("Memulai Proses", 500);
         System.out.print("Masukkan jumlah konversi yang diinginkan: ");
         int jumlahKonversi = scan.nextInt();
         
@@ -250,7 +321,7 @@ public class perubahmetrik {
         }
         
         double hasilKonversi = buatkonversi(nilai, unitSekarang, unitSelanjutnya);
-        System.out.printf("%.10f %s = %.10f %s%n", 
+        System.out.printf("\n%.2f %s = %.2f %s%n", 
             nilai, satuanunit[unitSekarang-1], 
             hasilKonversi, satuanunit[unitSelanjutnya-1]);
             
@@ -267,15 +338,13 @@ public class perubahmetrik {
      * @param arahKonversi "dari" atau "ke" untuk menunjukkan arah konversi
      */
 
-    public static void tunjukanpilihan(String arahKonversi){
-        System.out.println("\nPilih unit " + arahKonversi + ":");
-        System.out.println("1. Kilometer");
-        System.out.println("2. Meter");
-        System.out.println("3. Centimeter");
-        System.out.println("4. Milimeter");
-        System.out.println("5. Micrometer");
-        System.out.println("6. Nanometer");
-        System.out.print("Buatlah Pilihan Anda = ");
+     private static void tunjukanpilihan(String arahKonversi) {
+        System.out.println("\n" + PURPLE + "PILIH UNIT " + arahKonversi.toUpperCase() + ":" + RESET);
+        for (int i = 0; i < satuanunit.length; i++) {
+            System.out.printf(CYAN + "%s %d. " + RESET + "%s%n",
+                "•", i + 1, getUnitName(satuanunit[i]));
+        }
+        System.out.print(YELLOW + "Pilihan Anda " + RESET + PURPLE + "➜ " + RESET);
     }
     
     /**
@@ -288,6 +357,7 @@ public class perubahmetrik {
      */
 
     public static double buatkonversi(double nilai, int dariUnit, int keUnit){
+        delayWaktu("Melakukan Konversi", 800);
         // Pertama konversi ke meter 
         double nilaiDalamMeter = nilai * konversikemeter[dariUnit-1];
         // Kemudian konversi dari meter ke unit tujuan

@@ -238,6 +238,13 @@ public class perubahmetrik {
             System.out.println("Pilihan tidak valid, coba lagi");
             return;
         }
+        System.out.print("Masukkan nilai " + satuanunit[pilihan-1] + " = ");
+        double nilai = scan.nextDouble();
+        while(nilai < 0){
+            System.out.print("Nilai tidak boleh dalam bentuk negatif, coba lagi = ");
+            nilai = scan.nextDouble();
+        }
+        
         
         tunjukanpilihan("ke");
         int pilihanTujuan = scan.nextInt();
@@ -246,15 +253,9 @@ public class perubahmetrik {
             return;
         }
         
-        System.out.print("Masukkan nilai " + satuanunit[pilihan-1] + " = ");
-        double nilai = scan.nextDouble();
-        while(nilai < 0){
-            System.out.print("Nilai tidak boleh dalam bentuk negatif, coba lagi = ");
-            nilai = scan.nextDouble();
-        }
-        
         double hasil = buatkonversi(nilai, pilihan, pilihanTujuan);
-        System.out.printf("Hasil perubahan adalah = %.2f %s%n", 
+        System.out.printf("\n%.2f %s = %.2f %s%n", 
+            nilai, satuanunit[pilihan-1],
             hasil, satuanunit[pilihanTujuan-1]);
             
         // Tambahkan ke riwayat

@@ -63,26 +63,6 @@ public class perubahmetrik {
         }
     }
     
-    //Tabel untuk konversi unit ke meter 
-    static final double[] konversikemeter = {
-        1000,     // (1 km = 1000 m)
-        1,        // (1 m = 1 m)
-        0.01,     // (1 cm = 0.01 m)
-        0.001,    // (1 mm = 0.001 m)
-        1e-6,     // (1 μm = 0.000001 m)
-        1e-9      // (1 nm = 0.000000001 m)
-    };
-
-    //Tabel untuk konversi dari meter ke unit target
-    static final double[] konversidarimeter = {
-        0.001,    // (1 m = 0.001 km)
-        1,        // (1 m = 1 m)s
-        100,      // (1 m = 100 cm)
-        1000,     // (1 m = 1000 mm)
-        1000000,  // (1 m = 1,000,000 μm)
-        1e9       // (1 m = 1,000,000,000 nm)
-    };
-
     //Tabel untuk satuan unit metrik
     static final String[] satuanunit = {
         "km",    // kilometer
@@ -92,7 +72,6 @@ public class perubahmetrik {
         "μm",    // micrometer
         "nm",    // nanometer
     }; 
-
 
     /**
      * Fungsi utama program. Menyediakan menu untuk memilih mode operasi:
@@ -161,12 +140,6 @@ public class perubahmetrik {
      * 
      * @param text Teks yang akan ditampilkan di dalam header
     */
-
-    private static void outputHeader(String text) {
-        System.out.println("\n" + CYAN + "╔" + DOUBLE_LINE.repeat(text.length() + 2) + "╗" + RESET);
-        System.out.println(CYAN + "║ " + RESET + YELLOW + text + CYAN + " ║" + RESET);
-        System.out.println(CYAN + "╚" + DOUBLE_LINE.repeat(text.length() + 2) + "╝" + RESET);
-    }
 
     /**
      * Menambahkan entri ke riwayat konversi. Jika riwayat penuh, elemen
@@ -360,9 +333,21 @@ public class perubahmetrik {
     public static double buatkonversi(double nilai, int dariUnit, int keUnit){
         delayWaktu("Melakukan Konversi", 800);
         // Pertama konversi ke meter 
-        double nilaiDalamMeter = nilai * konversikemeter[dariUnit-1];
+        double nilaiDalamMeter = nilai * daftarkonversi.konversikemeter[dariUnit-1];
         // Kemudian konversi dari meter ke unit tujuan
-        return nilaiDalamMeter * konversidarimeter[keUnit-1];
+        return nilaiDalamMeter * daftarkonversi.konversidarimeter[keUnit-1];
+    }
+
+        /**
+     * Menampilkan header dengan format kotak menggunakan karakter Unicode.
+     * Header dicetak dengan warna dan gaya tertentu.
+     * 
+     * @param text Teks yang akan ditampilkan di dalam header
+     */
+    public static void outputHeader(String text) {
+        System.out.println("\n" + CYAN + "╔" + DOUBLE_LINE.repeat(text.length() + 2) + "╗" + RESET);
+        System.out.println(CYAN + "║ " + RESET + YELLOW + text + CYAN + " ║" + RESET);
+        System.out.println(CYAN + "╚" + DOUBLE_LINE.repeat(text.length() + 2) + "╝" + RESET);
     }
 
     public static void main(String[] args) {

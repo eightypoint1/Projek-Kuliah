@@ -87,13 +87,7 @@ public class perubahmetrik {
         outputHeader("PROGRAM KONVERSI METRIK");
         
         while(true) {
-            System.out.println("\n" + CYAN + "╔══════════" + YELLOW + " MENU UTAMA " + CYAN + "════════════╗" + RESET);
-            System.out.println(CYAN + "║" + RESET + " 1. Konversi tunggal              " + CYAN + "║" + RESET);
-            System.out.println(CYAN + "║" + RESET + " 2. Konversi berantai             " + CYAN + "║" + RESET);
-            System.out.println(CYAN + "║" + RESET + " 3. Lihat riwayat konversi        " + CYAN + "║" + RESET);
-            System.out.println(CYAN + "║" + RESET + " 4. Keluar                        " + CYAN + "║" + RESET);
-            System.out.println(CYAN + "╚══════════════════════════════════╝" + RESET);
-            System.out.print(YELLOW + "Pilihan Anda " + RESET + PURPLE + "➜ " + RESET);
+            outputmenu();
             
             int modePilihan = scan.nextInt();
             
@@ -187,7 +181,7 @@ public class perubahmetrik {
         outputHeader("RIWAYAT KONVERSI");
         
         for (int i = jumlahRiwayat-1; i >= 0; i--) {
-            System.out.printf(CYAN + "%d. " + RESET + "%.2f %s " + GREEN + "%s" + RESET + " %.2f %s%n",
+            System.out.printf(CYAN + "%d. " + RESET + "%.2f %s " + GREEN + "%s" + RESET + " %2f %s%n",
                 jumlahRiwayat - i,
                 nilaiAwalRiwayat[i],
                 unitAwalRiwayat[i],
@@ -348,6 +342,16 @@ public class perubahmetrik {
         System.out.println("\n" + CYAN + "╔" + DOUBLE_LINE.repeat(text.length() + 2) + "╗" + RESET);
         System.out.println(CYAN + "║ " + RESET + YELLOW + text + CYAN + " ║" + RESET);
         System.out.println(CYAN + "╚" + DOUBLE_LINE.repeat(text.length() + 2) + "╝" + RESET);
+    }
+
+    public static void outputmenu(){
+        System.out.println("\n" + CYAN + "╔══════════" + YELLOW + " MENU UTAMA " + CYAN + "════════════╗" + RESET);
+        System.out.println(CYAN + "║" + RESET + " 1. Konversi tunggal              " + CYAN + "║" + RESET);
+        System.out.println(CYAN + "║" + RESET + " 2. Konversi berantai             " + CYAN + "║" + RESET);
+        System.out.println(CYAN + "║" + RESET + " 3. Lihat riwayat konversi        " + CYAN + "║" + RESET);
+        System.out.println(CYAN + "║" + RESET + " 4. Keluar                        " + CYAN + "║" + RESET);
+        System.out.println(CYAN + "╚══════════════════════════════════╝" + RESET);
+        System.out.print(YELLOW + "Pilihan Anda " + RESET + PURPLE + "➜ " + RESET);
     }
 
     public static void main(String[] args) {

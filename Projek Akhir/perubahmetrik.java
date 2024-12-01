@@ -84,7 +84,7 @@ public class perubahmetrik {
      */
 
     private static void fungsiUtama() {
-        outputHeader("PROGRAM KONVERSI METRIK");
+        outputtextbox("PROGRAM KONVERSI METRIK");
         
         while(true) {
             outputmenu();
@@ -96,7 +96,7 @@ public class perubahmetrik {
                 case 2: lakukanKonversiBerantai(); break;
                 case 3: tampilkanRiwayat(); break;
                 case 4:
-                    outputHeader("TERIMA KASIH TELAH MENGGUNAKAN PROGRAM INI");
+                    outputtextbox("TERIMA KASIH TELAH MENGGUNAKAN PROGRAM INI");
                     return;
                 default:
                     System.out.println(RED + "⚠ Pilihan tidak valid, silakan coba lagi" + RESET);
@@ -178,7 +178,7 @@ public class perubahmetrik {
             return;
         }
         
-        outputHeader("RIWAYAT KONVERSI");
+        outputtextbox("RIWAYAT KONVERSI");
         
         for (int i = jumlahRiwayat-1; i >= 0; i--) {
             System.out.printf(CYAN + "%d. " + RESET + "%.2f %s " + GREEN + "%s" + RESET + " %2f %s%n",
@@ -338,7 +338,7 @@ public class perubahmetrik {
      * 
      * @param text Teks yang akan ditampilkan di dalam header
      */
-    public static void outputHeader(String text) {
+    public static void outputtextbox(String text) {
         System.out.println("\n" + CYAN + "╔" + DOUBLE_LINE.repeat(text.length() + 2) + "╗" + RESET);
         System.out.println(CYAN + "║ " + RESET + YELLOW + text + CYAN + " ║" + RESET);
         System.out.println(CYAN + "╚" + DOUBLE_LINE.repeat(text.length() + 2) + "╝" + RESET);

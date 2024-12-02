@@ -129,13 +129,6 @@ public class perubahmetrik {
     }
 
     /**
-     * Menampilkan header dengan format kotak yang rapi menggunakan karakter Unicode.
-     * Header dicetak dengan warna dan gaya tertentu.
-     * 
-     * @param text Teks yang akan ditampilkan di dalam header
-    */
-
-    /**
      * Menambahkan entri ke riwayat konversi. Jika riwayat penuh, elemen
      * paling lama akan dihapus untuk memberi ruang.
      * 
@@ -338,6 +331,7 @@ public class perubahmetrik {
      * 
      * @param text Teks yang akan ditampilkan di dalam header
      */
+    
     public static void outputtextbox(String text) {
         System.out.println("\n" + CYAN + "╔" + DOUBLE_LINE.repeat(text.length() + 2) + "╗" + RESET);
         System.out.println(CYAN + "║ " + RESET + YELLOW + text + CYAN + " ║" + RESET);
